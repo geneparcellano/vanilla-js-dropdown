@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vanilla JS Dropdown</title>
+	<style>
+		/***********************************************************************
+		REQUIRED STYLES - Required for dropdown to work
+		***********************************************************************/
+		body {
+			/* Required for closing dropdown menus when
+			not interacting with dropdown */
+			min-height: 100vh;
+		}
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+		.dropdown-menu {
+			position: absolute;
+			display: none;
+			list-style: none;
+			padding-left: 0;
+		}
+		.dropdown-menu.is-visible {
+			display: block;
+		}
+
+		/***********************************************************************
+		ADDITIONAL STYLES - Not required
+		***********************************************************************/
+		.dropdown {
+			margin-right: 20px;
+		}
+		.dropdown-menu {
+			min-width: 200%;
+			margin: 0;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-shadow: 0 1px 3px #ccc;
+		}
+		.dropdown-menu li {
+			padding: 5px 10px;
+		}
+		.dropdown-menu li:hover {
+			background-color: #eee;
+		}
+		.dropdown-menu li:active {
+			background-color: #ddd;
+		}
+	</style>
+</head>
+<body>
+	<h1>Vanilla JS Dropdown</h1>
+	<p>A basic dropdown with only the essential functionalities.</p>
+	<div class="dropdown">
+		<button type="button" class="dropdown-toggle">Dropdown A</button>
+		<ul class="dropdown-menu">
+			<li>Option A1</li>
+			<li>Option A2</li>
+			<li>Option A3</li>
+		</ul>
+	</div>
+	<div class="dropdown">
+		<button type="button" class="dropdown-toggle">Dropdown B</button>
+		<ul class="dropdown-menu">
+			<li>Option B1</li>
+			<li>Option B2</li>
+			<li>Option B3</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		const $dropdowns = document.querySelectorAll('.dropdown');
+
+		/***********************************************************************
+		Hide all dropdown menus
+		***********************************************************************/
+		const hideMenus = () => {
+			$dropdowns.forEach(($dropdown) => {
+				const $menu = $dropdown.querySelector('.dropdown-menu');
+				const isVisible = $menu.classList.contains('is-visible');
+
+				if (isVisible) {
+					$menu.classList.remove('is-visible');
+				}
+			});
+		}
+
+		/***********************************************************************
+		Initiate dropdowns
+		***********************************************************************/
+		$dropdowns.forEach(($dropdown) => {
+			$dropdown.querySelector('.dropdown-toggle').addEventListener('click', (e) => {
+				const $menu = e.target.parentElement.querySelector('.dropdown-menu');
+				const isVisible = $menu.classList.contains('is-visible');
+
+				if (isVisible) {
+					$menu.classList.remove('is-visible');
+				} else {
+					hideMenus();
+					$menu.classList.add('is-visible');
+				}
+			});
+		});
+
+		/***********************************************************************
+		Hide menus when clicking outside of dropdown
+		***********************************************************************/
+		document.body.addEventListener('click', (el) => {
+			const isDropdown = el.target.closest('.dropdown');
+			if (!isDropdown) {
+				hideMenus();
+			}
+		}, true);
+	</script>
+</body>
+</html>
